@@ -1,0 +1,55 @@
+﻿@model KudTentProjekat.Models.ClanBO
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+
+
+
+
+
+<div class="jumbotron">
+    <h1>Login</h1>
+    <form asp-action="Login">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="KorisnickoIme" class="control-label"></label>
+            <input asp-for="KorisnickoIme" class="form-control" />
+            <span asp-validation-for="KorisnickoIme" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Lozinka" class="control-label"></label>
+            <input asp-for="Lozinka" class="form-control" />
+            <span asp-validation-for="Lozinka" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+            <input type="submit" value="Login" class="btn btn-secondary" />
+        </div>
+    </form>
+    <div>
+        @Html.ActionLink("Nemate nalog?", "Register")
+    </div>
+    @if (TempData["Success"] != null)
+    {
+        <div class="green text-success">
+            <p class="poruka"><strong>Uspešno:</strong> @TempData["Success"].ToString()</p>
+        </div>
+    }
+</div>
+
+
+
+
+@if (TempData["Error"] != null)
+{
+    <div class="red text-danger">
+        <p class="poruka"><strong>Greška:</strong> @TempData["Error"].ToString()</p>
+    </div>
+}
+
+
+

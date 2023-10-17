@@ -1,0 +1,72 @@
+﻿@model KudTentProjekat.Models.Clan
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+
+
+<div class="jumbotron">
+    <h3>Da li ste sigurni da želite da izbrišete člana?</h3>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+           Id:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Idclana)
+        </dd>
+        <dt class="col-sm-2">
+            Korisničko ime:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.KorisnickoIme)
+        </dd>
+        <dt class="col-sm-2" hidden>
+            @Html.DisplayNameFor(model => model.Lozinka)
+        </dt>
+        <dd class="col-sm-10" hidden>
+            @Html.DisplayFor(model => model.Lozinka)
+        </dd>
+        <dt class="col-sm-2">
+           Prezime i ime:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PrezimeIme)
+        </dd>
+        <dt class="col-sm-2">
+            Popust:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Popust)
+        </dd>
+        @*
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Idprivilegije)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Idprivilegije)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Idsekcije)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Idsekcije)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Idplaceno)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Idplaceno)
+        </dd>
+        *@
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        |
+        <a asp-action="Index">Back</a>
+
+    </form>
+    
+</div>

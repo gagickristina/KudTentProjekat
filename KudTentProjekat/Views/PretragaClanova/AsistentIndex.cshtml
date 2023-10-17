@@ -1,0 +1,106 @@
+﻿@model IEnumerable<KudTentProjekat.Models.ClanBO>
+@using Microsoft.AspNetCore.Http;
+
+@{
+    ViewData["Title"] = "AsistentIndex";
+}
+
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+<div class="row">
+    <div class="col-sm-6">
+        <div class="card">
+            <img src="~/img/pozadina1.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Pretrazite clanove</h5>
+
+                <div>
+                    @Html.DropDownList(
+                        "Clanovi",
+                        new SelectList(@ViewBag.Clanovi, "Id", "PrezimeIme"),
+                        "Selektuj clana",
+                        new
+                             {
+                                 @class = "form-control",
+                            @onchange = "OnSelectedClan(this.value)"
+                             })
+
+                </div>
+                <div>
+
+                    <br />
+                    <br />
+                    <a class="btn btn-secondary" asp-controller="PretragaClanova" asp-action="AsistentInfo">Licne informacije</a>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="card">
+            <img src="~/img/pozadina2.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Pretrazite priznanice</h5>
+                <br />
+                <a class="btn btn-secondary" asp-controller="Priznanica" asp-action="IndexAsistent">Pretrazi priznanice</a>
+                <br />
+                <br />
+                <a class="btn btn-secondary" asp-controller="Priznanica" asp-action="CreateAsistent">Kreiraj novu</a>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+<br>
+<br>
+<div id="Sekcije" class="card">
+
+    @{Html.ActionLink("GetClanByClanId", "PretragaClanova", new { id = 0 });}
+
+</div>
+
+<script type="text/javascript">
+
+    function OnSelectedClan(clan) {
+
+        var idClana = clan;
+        if(idClana === "")
+        {
+            idClana = 0;
+        }
+        $.ajax({
+            url: '@Url.Action("GetClanByClanId", "PretragaClanova")',
+            data: { id: idClana },
+          success:   function(result) {
+              $('#Sekcije').html(result);
+            }
+
+        });
+    }
+
+
+    $(document).ready(function () {
+
+        if ($(".alert-success").length > 0) {
+
+            setTimeout(function () {
+                $(".alert-success").fadeOut("slow");
+            }, 3000); // Sakri obaveštenje nakon 3 sekunde
+        }
+    });
+
+
+</script>
+
+
+
+

@@ -1,0 +1,102 @@
+﻿@model KudTentProjekat.Models.ClanBO
+
+@{
+    ViewData["Title"] = "EditAdmin";
+}
+
+
+<div class="jumbotron">
+    <h2>Izmena informacija:</h2>
+    <form asp-action="EditAdmin">
+        <div class="form-group" hidden>
+            <label asp-for="Id" class="control-label"></label>
+            <input asp-for="Id" class="form-control" />
+            <span asp-validation-for="Id" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="KorisnickoIme" class="control-label"></label>
+            <input asp-for="KorisnickoIme" class="form-control" />
+            <span asp-validation-for="KorisnickoIme" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Lozinka" class="control-label"></label>
+            <input asp-for="Lozinka" value="@Model.Lozinka" class="form-control" />
+            <span asp-validation-for="Lozinka" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+            <label asp-for="PrezimeIme" class="control-label"></label>
+            <input asp-for="PrezimeIme" class="form-control" />
+            <span asp-validation-for="PrezimeIme" class="text-danger"></span>
+        </div>
+        @*
+        <div class="form-group">
+            <label asp-for="Popust" class="control-label"></label>
+            <input asp-for="Popust" class="form-control" />
+            <span asp-validation-for="Popust" class="text-danger"></span>
+        </div>
+        *@
+        <div class="form-group">
+            <label asp-for="Sekcije" class="control-label">
+
+            </label>
+
+            <select class="form-control" asp-for="Sekcije.Id" asp-items="@(new SelectList(ViewBag.Sekcije,"Id","Naziv"))">
+                <option>Izaberite</option>
+            </select>
+            <span asp-validation-for="Sekcije.Id" class="text-danger"></span>
+        </div>
+
+
+
+
+        <div class="form-group">
+            <label asp-for="Popust" class="control-label"></label>
+            <input id="Da" type="radio" asp-for="Popust" value="Da" /> Da <br />
+            <input id="Ne" type="radio" asp-for="Popust" value="Ne" /> Ne
+
+            <span asp-validation-for="Popust" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Placeno" class="control-label">
+
+            </label>
+            <select class="form-control" asp-for="Placeno.Id">
+                <option value="">Izaberite opciju:</option>
+                @foreach (var placenoItem in ViewBag.Placeno)
+                {
+                    var mesecnaStatus = placenoItem.Mesecna.Status;
+                    var godisnjaStatus = placenoItem.Godisnja.Status;
+                    var optionText = $"Mesecna: {mesecnaStatus} - Godisnja: {godisnjaStatus}";
+                    <option value="@placenoItem.Id">@optionText</option>
+                }
+            </select>
+
+
+
+            <span asp-validation-for="Placeno.Id" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Privilegije korisnika:</label> <br />
+            <input id="1" type="radio" asp-for="Privilegije.Id" value="1" /> Admin <br />
+            <input id="2" type="radio" asp-for="Privilegije.Id" value="2" /> Korisnik <br />
+            <input id="3" type="radio" asp-for="Privilegije.Id" value="3" /> Asistent
+
+            <span asp-validation-for="Privilegije" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-secondary" />
+        </div>
+
+    </form>
+
+</div>
+
+
+

@@ -1,0 +1,129 @@
+﻿@model IEnumerable<KudTentProjekat.Models.ClanBO>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ID:
+            </th>
+            <th>
+                Korisničko ime:
+            </th>
+            <th hidden>
+                Lozinka:
+            </th>
+            <th>
+                Prezime i ime:
+            </th>
+
+
+            <th>
+                Popust:
+            </th>
+            <th>
+                Sekcija:
+            </th>
+
+
+
+            <th>
+                Mesečna članarina:
+            </th>
+
+            <th>
+                Cena mesečne:
+            </th>
+
+            <th>
+                Godisnja članarina:
+            </th>
+
+            <th>
+                Cena godišnje:
+            </th>
+
+            <th>
+                Privilegija:
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KorisnickoIme)
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.Lozinka)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrezimeIme)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Popust)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sekcije.Naziv)
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Placeno.Mesecna.Status)
+            </td>
+
+
+            @if (item.Popust == "Da")
+            {
+                <td>
+                    @Html.DisplayFor(model => item.Placeno.Mesecna.CenaPopust)
+                </td>
+            }
+            else if (item.Popust == "Ne")
+            {
+                <td>
+                    @Html.DisplayFor(model => item.Placeno.Mesecna.CenaObicna)
+                </td>
+            }
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Placeno.Godisnja.Status)
+            </td>
+
+            @if (item.Popust == "Da")
+            {
+                <td>
+                    @Html.DisplayFor(model => item.Placeno.Godisnja.CenaPopust)
+                </td>
+            }
+            else if (item.Popust == "Ne")
+            {
+                <td>
+                    @Html.DisplayFor(model => item.Placeno.Godisnja.CenaObicna)
+                </td>
+            }
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Privilegije.Naziv)
+            </td>
+
+            <td>
+                @Html.ActionLink("Izmeni", "Edit", "PretragaClanova", new { id = item.Id })
+
+            </td>
+
+            <td>
+
+                @Html.ActionLink("Obriši", "Delete", "PretragaClanova", new { id = item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

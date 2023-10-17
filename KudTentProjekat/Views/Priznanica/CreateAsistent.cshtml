@@ -1,0 +1,187 @@
+﻿@model KudTentProjekat.Models.PriznanicaBO
+
+@{
+    ViewData["Title"] = "CreateAsistent";
+}
+
+
+<div class="jumbotron">
+    <h2>Kreiraj novu priznanicu</h2>
+    <form asp-action="CreateAsistent">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group" hidden>
+            <label asp-for="Id" class="control-label"></label>
+            <input asp-for="Id" class="form-control" />
+            <span asp-validation-for="Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Datum" class="control-label"></label>
+            <input asp-for="Datum" class="form-control" />
+            <span asp-validation-for="Datum" class="text-danger"></span>
+        </div>
+        @*
+            <div class="form-group">
+                <label asp-for="NazivMeseca" class="control-label"></label>
+                <input asp-for="NazivMeseca" class="form-control" />
+                <span asp-validation-for="NazivMeseca" class="text-danger"></span>
+            </div>
+        *@
+        <div class="form-group">
+            <label asp-for="ClanPriznanica" class="control-label"></label>
+            <select class="form-control" id="ClanSelect">
+                @foreach (var clan in ViewBag.Clanovi)
+                {
+                    var cenaObicnaMesecna = clan.Placeno.Mesecna.CenaObicna;
+                    var cenaPopustMesecna = clan.Placeno.Mesecna.CenaPopust;
+                    var cenaObicnaGodisnja = clan.Placeno.Godisnja.CenaObicna;
+                    var cenaPopustGodisnja = clan.Placeno.Godisnja.CenaPopust;
+                    var popust = clan.Popust;
+
+                    // Postavljanje vrednosti kao data-atributa
+                    <option data-popust="@popust" data-cena-mesecna-obicna="@cenaObicnaMesecna" data-cena-mesecna-popust="@cenaPopustMesecna" data-cena-godisnja-obicna="@cenaObicnaGodisnja" data-cena-godisnja-popust="@cenaPopustGodisnja" value="@clan.Id">@clan.PrezimeIme</option>
+                }
+            </select>
+            <input type="hidden" name="ClanPriznanica.Id" id="SelectedClanId" readonly />
+            <span asp-validation-for="ClanPriznanica.Id" class="text-danger"></span>
+        </div>
+
+        <br />
+        <!--unos tipa članarine i cene -->
+        <div class="form-group">
+            <label asp-for="NazivMeseca" class="control-label">Tip članarine:</label>
+            <input type="radio" name="TipClanarine" id="TipClanarineMesecna" value="Mesecna">
+            <label class="form-check-label" for="TipClanarineMesecna">
+                Mesečna članarina
+            </label>
+            <input type="radio" name="TipClanarine" id="TipClanarineGodisnja" value="Godisnja">
+            <label class="form-check-label" for="TipClanarineGodisnja">
+                Godišnja članarina
+            </label>
+
+            <span asp-validation-for="NazivMeseca" class="text-danger"></span>
+        </div>
+        <input type="hidden" asp-for="NazivMeseca" id="HiddenNazivMeseca" />
+
+
+        <div class="form-group">
+            <label asp-for="Cena" class="control-label">Cena:</label>
+            <input class="form-control" asp-for="Cena" readonly>
+            <span asp-validation-for="Cena" class="text-danger"></span>
+        </div>
+
+
+
+        @*<div class="form-group">
+                <label asp-for="ClanPriznanica" class="control-label">
+
+                </label>
+
+                <select class="form-control" asp-for="ClanPriznanica.Id" asp-items="@(new SelectList(ViewBag.Clanovi,"Id","PrezimeIme"))">
+                    <option>Izaberite clana:</option>
+                </select>
+                <span asp-validation-for="ClanPriznanica.Id" class="text-danger"></span>
+            </div>
+
+
+
+            <div class="form-group">
+                <label asp-for="Cena" class="control-label"></label>
+                <input asp-for="Cena" class="form-control" />
+                <span asp-validation-for="Cena" class="text-danger"></span>
+            </div>*@
+        @*  <div class="form-group">
+                <label asp-for="Cena" class="control-label"></label><br />
+                <input type="radio" asp-for="Cena" value="2000" />2000 dinara<br />
+                <input type="radio" asp-for="Cena" value="1500" />1500 dinara<br />
+                <input type="radio" asp-for="Cena" value="1000" />1000 dinara<br />
+                <input type="radio" asp-for="Cena" value="800" />800 dinara<br />
+
+                <span asp-validation-for="Cena" class="text-danger"></span>
+            </div>
+        *@
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-secondary" />
+        </div>
+    </form>
+    @if (TempData["Error"] != null)
+    {
+        <div class="red text-danger">
+            <p class="poruka"><strong>Greška:</strong> @TempData["Error"].ToString()</p>
+        </div>
+    }
+
+    <div>
+        <a asp-action="IndexAsistent">Back</a>
+    </div>
+
+</div>
+
+<script>
+
+
+    //Ovaj deo služi da automatski ažurira cenu na osnovu izbora korisnika.
+    document.addEventListener("DOMContentLoaded", function () {
+
+
+        var cenaInput = document.getElementById("Cena");
+        var clanSelect = document.getElementById("ClanSelect");
+
+
+        var tipClanarineMesecnaInput = document.getElementById("TipClanarineMesecna");
+        var tipClanarineGodisnjaInput = document.getElementById("TipClanarineGodisnja");
+
+
+
+        //U ovoj funkciji se prvo dohvata izabrani član iz padajućeg menija i proverava se koji je tip članarine izabran
+        //Na osnovu toga se određuje cena(cenaObicna ili cenaPopust) i ta vrednost se postavlja u input polje za cenu
+        function updateCena() {
+            var selectedOption = clanSelect.options[clanSelect.selectedIndex];
+            var tipClanarine = tipClanarineMesecnaInput.checked ? "mesecna" : "godisnja";
+
+            // Konvertuj string u celobrojnu vrednost
+            var cena = parseInt(selectedOption.getAttribute("data-cena-" + tipClanarine + "-obicna"));
+            if (selectedOption.getAttribute("data-popust") === "Da") {
+                cena = parseInt(selectedOption.getAttribute("data-cena-" + tipClanarine + "-popust"));
+            }
+
+            cenaInput.value = cena;
+        }
+
+        // Postavljanje događaja za promene u izboru člana i tipa članarine
+        clanSelect.addEventListener("change", updateCena);
+        tipClanarineMesecnaInput.addEventListener("change", updateCena);
+        tipClanarineGodisnjaInput.addEventListener("change", updateCena);
+
+        // Inicijalno ažuriranje na osnovu početnih vrednosti
+        updateCena();
+    });
+
+    //hidden naziv meseca (ranije je služio da se doda naziv, ali sam promenila da je bolje tip članarine da bude upisan)
+    $(document).ready(function () {
+        // Postavljamo događaje za promenu u radio dugmadima
+        $("input[name='TipClanarine']").change(function () {
+            // Dobijamo vrednost (Mesecna ili Godisnja) iz izabranog radio dugmeta
+            var selectedValue = $("input[name='TipClanarine']:checked").val();
+
+            // Postavljamo vrednost skrivenog polja HiddenNazivMeseca
+            $("#HiddenNazivMeseca").val(selectedValue);
+        });
+    });
+
+    //hidden id clana
+    document.addEventListener("DOMContentLoaded", function () {
+        var clanSelect = document.getElementById("ClanSelect");
+        var selectedClanIdInput = document.getElementById("SelectedClanId");
+
+        clanSelect.addEventListener("change", function () {
+            var selectedOption = clanSelect.options[clanSelect.selectedIndex];
+            var selectedClanId = selectedOption.value;
+            selectedClanIdInput.value = selectedClanId;
+        });
+    });
+</script>
+
+
+
+
+

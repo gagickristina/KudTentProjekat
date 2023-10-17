@@ -1,0 +1,99 @@
+﻿@model IEnumerable<KudTentProjekat.Models.PriznanicaBO>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div class="row">
+
+    <div class="col-sm-6">
+        <div class="card">
+            <img src="~/img/pozadina2.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Pretražite priznanice:</h5>
+
+                <div>
+                    @Html.DropDownList(
+                        "Priznanice",
+                        new SelectList(@ViewBag.Clanovi, "Id", "PrezimeIme"),
+                        "Selektuj priznanicu",
+                        new
+                             {
+                                 @class = "form-control",
+                            @onchange = "OnSelectedPriznanica(this.value)"
+                             })
+
+                </div>
+                <div>
+                    <br />
+
+                    <a class="btn btn-secondary" asp-controller="Priznanica" asp-action="Create">Kreiraj novu</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="card">
+            <img src="~/img/pozadina1.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Pretražite članove</h5>
+                <br />
+                <a class="btn btn-secondary" asp-controller="PretragaClanova" asp-action="Index">Pretraži članove</a>
+                <br />
+                <br />
+                <a class="btn btn-secondary" asp-controller="PretragaClanova" asp-action="Create">Kreiraj novog člana</a>
+                <br />
+                <br />
+                <a class="btn btn-secondary" asp-controller="PretragaClanova" asp-action="AdminInfo">Lične informacije</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+<div id="Clanovi" class="card">
+
+    @{Html.ActionLink("GetPriznaniceByClanId", "Priznanica", new { id = 0 });}
+
+
+</div>
+
+<script type="text/javascript">
+
+    function OnSelectedPriznanica(priznanica) {
+
+        var idPriznanice = priznanica;
+        if(idPriznanice === "")
+        {
+            idPriznanice = 0;
+        }
+        $.ajax({
+            url: '@Url.Action("GetPriznaniceByClanId", "Priznanica")',
+            data: { id: idPriznanice },
+          success:   function(result) {
+              $('#Clanovi').html(result);
+            }
+
+        });
+    }
+
+    // cekaj da se dokument potpuno ucita pre nego što se izvrsi JavaScript
+    $(document).ready(function () {
+        // proveri da li postoji element sa klasom "alert-success" na stranici
+        if ($(".alert-success").length > 0) {
+            // ako postoji, postavi tajmer za sakrivanje obavestenja
+            setTimeout(function () {
+                $(".alert-success").fadeOut("slow");
+            }, 3000); // Sakri obaveštenje nakon 3 sekunde
+        }
+    });
+
+</script>
+
+
+
+

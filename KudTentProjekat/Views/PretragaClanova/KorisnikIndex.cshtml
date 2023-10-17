@@ -1,0 +1,145 @@
+﻿@model KudTentProjekat.Models.ClanBO
+@using Microsoft.AspNetCore.Http;
+@{
+    ViewData["Title"] = "KorisnikIndex";
+}
+
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+<div class="jumbotron">
+    <h1>  Dobrodošao @Context.Session.GetString("KorisnickoIme") </h1>
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    ID:
+                </th>
+                <th>
+                    Korisničko ime:
+                </th>
+                <th hidden>
+                    Lozinka:
+                </th>
+                <th>
+                    Prezime i ime:
+                </th>
+
+
+                <th>
+                    Popust:
+                </th>
+                <th>
+                    Sekcija:
+                </th>
+
+                <th>
+                    Godišnja članarina:
+                </th>
+                <th>
+                    Cena godišnje:
+                </th>
+                <th>
+                    Mesečna članarina:
+                </th>
+                <th>
+                    Cena mesečne:
+                </th>
+                <th>
+                    Privilegija:
+                </th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.KorisnickoIme)
+                </td>
+                <td hidden>
+                    @Html.DisplayFor(modelItem => modelItem.Lozinka)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.PrezimeIme)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.Popust)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.Sekcije.Naziv)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.Placeno.Godisnja.Status)
+                </td>
+
+                @if (Model.Popust == "Da")
+                {
+                    <td>
+                        @Html.DisplayFor(model => model.Placeno.Godisnja.CenaPopust)
+                    </td>
+                }
+                else if (Model.Popust == "Ne")
+                {
+                    <td>
+                        @Html.DisplayFor(model => model.Placeno.Godisnja.CenaObicna)
+                    </td>
+                }
+
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.Placeno.Mesecna.Status)
+                </td>
+
+                @if (Model.Popust == "Da")
+                {
+                    <td>
+                        @Html.DisplayFor(model => model.Placeno.Mesecna.CenaPopust)
+                    </td>
+                }
+                else if (Model.Popust == "Ne")
+                {
+                    <td>
+                        @Html.DisplayFor(model => model.Placeno.Mesecna.CenaObicna)
+                    </td>
+                }
+
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.Privilegije.Naziv)
+                </td>
+
+
+            </tr>
+
+        </tbody>
+    </table>
+    <div>
+        @Html.ActionLink("Promeni licne podatke", "EditKorisnik", "PretragaClanova", new { id = Model.Id })
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        if ($(".alert-success").length > 0) {
+
+            setTimeout(function () {
+                $(".alert-success").fadeOut("slow");
+            }, 3000); // Sakri obaveštenje nakon 3 sekunde
+        }
+    });
+
+</script>

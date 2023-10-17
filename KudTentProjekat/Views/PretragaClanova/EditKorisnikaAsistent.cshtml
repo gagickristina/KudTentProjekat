@@ -1,0 +1,102 @@
+﻿@model KudTentProjekat.Models.ClanBO
+
+@{
+    ViewData["Title"] = "EditKorisnikaAsistent";
+}
+
+
+
+<div class="jumbotron">
+    <h4>Izmeni člana</h4>
+    <form asp-action="EditKorisnikaAsistent">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group" hidden>
+            <label asp-for="Id" class="control-label"></label>
+            <input asp-for="Id" class="form-control" />
+            <span asp-validation-for="Id" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="KorisnickoIme" class="control-label"></label>
+            <input asp-for="KorisnickoIme" class="form-control" readonly />
+            <span asp-validation-for="KorisnickoIme" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+
+            <input type="radio" asp-for="Lozinka" value="@Model.Lozinka" checked hidden />
+
+
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PrezimeIme" class="control-label"></label>
+            <input asp-for="PrezimeIme" class="form-control" readonly />
+            <span asp-validation-for="PrezimeIme" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+
+            <input type="radio" asp-for="Sekcije.Id" value="@Model.Sekcije.Id" checked hidden />
+
+
+        </div>
+
+
+
+
+        <div class="form-group">
+            <label asp-for="Placeno" class="control-label">
+
+            </label>
+            <select class="form-control" asp-for="Placeno.Id">
+                <option value="">Izaberite opciju:</option>
+                @foreach (var placenoItem in ViewBag.Placeno)
+                {
+                    var mesecnaStatus = placenoItem.Mesecna.Status;
+                    var godisnjaStatus = placenoItem.Godisnja.Status;
+                    var optionText = $"Mesecna: {mesecnaStatus} - Godisnja: {godisnjaStatus}";
+                    <option value="@placenoItem.Id">@optionText</option>
+                }
+            </select>
+
+
+
+            <span asp-validation-for="Placeno.Id" class="text-danger"></span>
+        </div>
+
+
+
+
+        <div class="form-group">
+
+            <input type="radio" asp-for="Popust" value="@Model.Popust" checked hidden />
+
+        </div>
+
+        <div class="form-group">
+
+
+            <input id="@Model.Privilegije.Id" type="radio" asp-for="Privilegije.Id" value="@Model.Privilegije.Id" checked hidden />
+
+
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-secondary" />
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

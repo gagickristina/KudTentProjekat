@@ -1,0 +1,62 @@
+﻿@model KudTentProjekat.Models.PriznanicaBO
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<div class="jumbotron">
+    <h2>Izmeni priznanicu</h2>
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group" hidden>
+            <label asp-for="Id" class="control-label"></label>
+            <input asp-for="Id" class="form-control" />
+            <span asp-validation-for="Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Datum" class="control-label"></label>
+            <input asp-for="Datum" class="form-control" />
+            <span asp-validation-for="Datum" class="text-danger"></span>
+        </div>
+        @*<div class="form-group">
+                <label asp-for="Cena" class="control-label"></label>
+                <input asp-for="Cena" class="form-control" />
+                <span asp-validation-for="Cena" class="text-danger"></span>
+            </div>
+        *@
+        <div class="form-group">
+            <label asp-for="NazivMeseca" class="control-label"></label>
+            <input asp-for="NazivMeseca" class="form-control" />
+            <span asp-validation-for="NazivMeseca" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Cena" class="control-label"></label>
+            @if (Model.ClanPriznanica.Popust == "Da")
+            {
+                <input type="radio" asp-for="Cena" value="@Model.ClanPriznanica.Placeno.Mesecna.CenaPopust" checked hidden />@Model.ClanPriznanica.Placeno.Mesecna.CenaPopust
+            }
+            else
+            {
+                <input type="radio" asp-for="Cena" value="@Model.ClanPriznanica.Placeno.Mesecna.CenaObicna" checked hidden />@Model.ClanPriznanica.Placeno.Mesecna.CenaObicna
+            }
+
+            <span asp-validation-for="Cena" class="text-danger"></span>
+        </div>
+
+        <div class="form-group" hidden>
+            <label asp-for="ClanPriznanica.Id" class="control-label"></label>
+            <input asp-for="ClanPriznanica.Id" class="form-control" />
+            <span asp-validation-for="ClanPriznanica.Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-secondary" />
+        </div>
+    </form>
+</div>
+
+
+<div>
+    <a asp-action="Index">Vrati se</a>
+</div>
+

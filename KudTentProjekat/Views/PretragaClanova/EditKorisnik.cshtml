@@ -1,0 +1,95 @@
+﻿@model KudTentProjekat.Models.ClanBO
+
+@{
+    ViewData["Title"] = "EditKorisnik";
+}
+
+
+<div class="jumbotron">
+    <h2>Izmena informacija:</h2>
+    <form asp-action="EditKorisnik">
+        <div class="form-group" hidden>
+            <label asp-for="Id" class="control-label"></label>
+            <input asp-for="Id" class="form-control" />
+            <span asp-validation-for="Id" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="KorisnickoIme" class="control-label"></label>
+            <input asp-for="KorisnickoIme" class="form-control" />
+            <span asp-validation-for="KorisnickoIme" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Lozinka" class="control-label"></label>
+            <input asp-for="Lozinka" value="@Model.Lozinka" class="form-control" />
+            <span asp-validation-for="Lozinka" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+            <label asp-for="PrezimeIme" class="control-label"></label>
+            <input asp-for="PrezimeIme" class="form-control" />
+            <span asp-validation-for="PrezimeIme" class="text-danger"></span>
+        </div>
+        @*
+        <div class="form-group">
+            <label asp-for="Popust" class="control-label"></label>
+            <input asp-for="Popust" class="form-control" />
+            <span asp-validation-for="Popust" class="text-danger"></span>
+        </div>
+        *@
+        <div class="form-group">
+            <label asp-for="Sekcije" class="control-label">
+
+            </label>
+
+            <select class="form-control" asp-for="Sekcije.Id" asp-items="@(new SelectList(ViewBag.Sekcije,"Id","Naziv"))">
+                <option>Izaberite</option>
+            </select>
+            <span asp-validation-for="Sekcije.Id" class="text-danger"></span>
+        </div>
+
+
+
+
+        <div class="form-group">
+            <label asp-for="Popust" class="control-label"></label>
+            <input id="Da" type="radio" asp-for="Popust" value="Da" /> Da <br />
+            <input id="Ne" type="radio" asp-for="Popust" value="Ne" /> Ne
+
+            <span asp-validation-for="Popust" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+
+            <input type="radio" asp-for="Placeno.Id" value="@Model.Placeno.Id" checked hidden />
+
+        </div>
+        <div class="form-group">
+
+            <input type="radio" asp-for="Placeno.Mesecna" value="@Model.Placeno.Mesecna" checked hidden />
+
+        </div>
+        <div class="form-group">
+
+            <input type="radio" asp-for="Placeno.Godisnja" value="@Model.Placeno.Godisnja" checked hidden />
+
+        </div>
+
+        <div class="form-group">
+
+
+            <input id="2" type="radio" asp-for="Privilegije.Id" value="2" checked hidden />
+
+
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-secondary" />
+        </div>
+
+    </form>
+   
+</div>
+
+
+

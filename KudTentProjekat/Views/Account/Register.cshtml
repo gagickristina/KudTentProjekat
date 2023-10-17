@@ -1,0 +1,105 @@
+﻿@model KudTentProjekat.Models.ClanBO
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+
+
+<div class="jumbotron">
+    <h1>Registracija</h1>
+    <form asp-action="Register">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @*<div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+        *@
+        <div class="form-group">
+            <label asp-for="KorisnickoIme" class="control-label"></label>
+            <input asp-for="KorisnickoIme" class="form-control" />
+            <span asp-validation-for="KorisnickoIme" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Lozinka" class="control-label"></label>
+            <input asp-for="Lozinka" class="form-control" />
+            <span asp-validation-for="Lozinka" class="text-danger"></span>
+            @Html.ValidationMessageFor(model => model.Lozinka)
+        </div>
+        <div class="form-group">
+            <label asp-for="PrezimeIme" class="control-label"></label>
+            <input asp-for="PrezimeIme" class="form-control" />
+            <span asp-validation-for="PrezimeIme" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Popust" class="control-label"></label>
+            <input id="Da" type="radio" asp-for="Popust" value="Da" /> Da <br />
+            <input id="Ne" type="radio" asp-for="Popust" value="Ne" /> Ne
+
+            <span asp-validation-for="Popust" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Sekcije" class="control-label">
+
+            </label>
+
+            <select class="form-control" asp-for="Sekcije.Id" asp-items="@(new SelectList(ViewBag.Sekcije,"Id","Naziv"))">
+                <option>Izaberite</option>
+            </select>
+            <span asp-validation-for="Sekcije.Id" class="text-danger"></span>
+        </div>
+
+        @*<div class="form-group">
+                <label asp-for="Placeno" class="control-label">
+
+                </label>
+
+                <select class="form-control" asp-for="Placeno.Id" asp-items="@(new SelectList(ViewBag.Mesecna,"Id","Status"))">
+                    <option>Da li je placena mesecna clanarina?</option>
+                </select>
+                <select class="form-control" asp-for="Placeno.Id" asp-items="@(new SelectList(ViewBag.Godisnja,"Id","Status"))">
+                    <option>Da li je placena godisnja clanarina?</option>
+                </select>
+                <span asp-validation-for="Placeno.Id" class="text-danger"></span>
+            </div>
+        *@
+        <div class="form-group">
+
+            <input type="radio" asp-for="Placeno.Id" value="4" checked hidden />
+
+        </div>
+        <div class="form-group">
+
+            <input type="radio" asp-for="Placeno.Mesecna" value="2" checked hidden />
+
+        </div>
+        <div class="form-group">
+
+            <input type="radio" asp-for="Placeno.Godisnja" value="2" checked hidden />
+
+        </div>
+
+        <div class="form-group">
+
+            <input id="2" type="radio" asp-for="Privilegije.Id" value="2" checked hidden />
+
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Register" class="btn btn-secondary" />
+        </div>
+    </form>
+
+</div>
+@if (TempData["Greska"] != null)
+{
+    <div class="red text-danger">
+        <p class="poruka"><strong>Greška:</strong> @TempData["Error"].ToString()</p>
+    </div>
+}
+
+
+
